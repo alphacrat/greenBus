@@ -1,0 +1,75 @@
+.busListContainer {
+    margin: 20px;
+}
+
+.busListHeading {
+    color: #FBFADA;
+}
+
+.busItem {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #436850;
+}
+
+.busName {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.busInfo {
+    margin-bottom: 10px;
+}
+
+.busInfoItem {
+    margin: 5px 0;
+}
+
+.busPriceType {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    color: #FBFADA;
+}
+
+.busActions {
+    color: #FBFADA;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bookButton {
+    background-color: #186e36;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    color:#FBFADA;
+    border-color: #FBFADA;
+    border-width: 1rem;
+}
+
+.availableSeats {
+    margin-top: 10px;
+}
+
+.busItemContent {
+    padding: 10px;
+    border-radius: 1rem;
+    background-color: #d5d4bf;
+    text-align: left; /* Align text to the left */
+}
+
+.busListContainer{
+    /* display: flex; */
+    
+    background-color: #12372A;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+}

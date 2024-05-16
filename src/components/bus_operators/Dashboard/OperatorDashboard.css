@@ -1,0 +1,66 @@
+.operator-dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.bus-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.bus-info {
+    margin-top: 20px;
+}
+
+.staff-details {
+    margin-top: 20px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.OperatorDashboardButtons{
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color:#436850;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.OperatorDashboardButtons:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,208 @@
+.busLayoutMainContainer {
+    padding: 20px;
+    color:#E8DFCA
+}
+
+.busLayoutContainer {
+    background-color: #1A4D2E;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.busLayoutContainer h2 {
+    margin-bottom: 10px;
+}
+
+.busLayoutContainer h4 {
+    margin-bottom: 5px;
+}
+
+.busLayoutContainer h5 {
+    margin-bottom: 15px;
+}
+
+.custom-d-flex {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.custom-d-flex h6 {
+    margin-right: 10px;
+}
+
+.busLayoutTicketItem {
+    list-style: none;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 2px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.busLayoutTicketItem:hover {
+    background-color: #f0f0f0;
+}
+
+.busLayoutTicketContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.busLayoutTicketContainer h6 {
+    margin-right: 20px;
+}
+
+.busLayoutTicketContainer .p-3 {
+    padding: 1rem!important;
+}
+
+.busLayoutTicketContainer .mt-4 {
+    margin-top: 1.5rem!important;
+}
+
+/* Responsive Seat Width */
+@media (max-width: 768px) {
+    .busLayoutTicketItem {
+        width: calc(25vw - 10px); /* Adjust based on your needs */
+    }
+}
+
+.busLayoutTicketContainer .d-flex {
+    display: flex!important;
+    width: 100%;
+    flex-wrap: wrap; /* Wrap seats on smaller screens */
+    padding: 5px;
+}
+
+.Layout-Header {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.Layout-Header-busNo {
+    margin-top: -5px;
+    padding: 5px;
+    margin-left: 15px;
+    color: #F5EFE6;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.Layout-Header-name{
+    color: #E8DFCA;
+    font-weight: bold;
+}
+
+.busType{
+    color: #E8DFCA;
+    font-weight: 500;
+}
+
+.busLayoutTicketContainer .align-items-center {
+    align-items: center!important;
+}
+
+.ms-3 {
+    margin-left: 1rem!important;
+}
+
+.mt-3 {
+    margin-top: 1rem!important;
+}
+
+.justify-content-center {
+    justify-content: center!important;
+}
+
+.Seat-Summary {
+    flex-grow: calc(1); /* Adjust as needed */
+    display: flex;
+    padding: 10px;
+    background-color: #4F6F52;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.bus-berth{
+    /* background-color:black ; */
+    width:100%;
+    margin-left:40px;
+}
+
+.bus-berth-single{
+    /* background-color:black ; */
+    margin-left: 40px
+}
+
+
+.bus-seat-upper{
+    padding:20px;
+    /* background-color: red; */
+    width: 100%;
+}
+
+.Berth-Name{
+    font-size: larger;
+}
+
+.bus-seat-lower{
+    padding:20px;
+    /* background-color: red; */
+    width: 38rem; 
+    margin-left: 15px;
+}
+
+.bus-seat-image {
+    width: 100px; /* Adjust the width of the image as needed */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute; /* Position the image absolutely within the parent container */
+    top: 0; /* Align the image to the top */
+    left: 0; /* Align the image to the left */
+}
+
+.Proceed-Button{
+    background-color: #F5EFE6 ;
+    color: black;
+    font-size: larger;
+    font-weight: 600;
+}
+
+
+/* Responsive Styling */
+
+@media (max-width: 768px) {
+    .busLayoutContainer {
+        padding: 10px;
+    }
+
+    .custom-d-flex {
+        flex-wrap: wrap;
+    }
+
+    .custom-d-flex > div {
+        margin-bottom: 10px;
+    }
+
+    .custom-d-flex h6 {
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+    .busLayoutMainContainer {
+        padding: 10px;
+    }
+
+    .busLayoutContainer {
+        padding: 15px;
+    }
+
+    .custom-d-flex h6 {
+        font-size: 14px;
+    }
+}

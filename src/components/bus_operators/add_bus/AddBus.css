@@ -1,0 +1,63 @@
+.add-bus-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.add-bus-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-bus-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-bus-container label {
+    margin-bottom: 5px;
+}
+
+.add-bus-container input[type="text"],
+.add-bus-container input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-bus-container .seat-layout {
+    margin-top: 20px;
+}
+
+.add-bus-container .seat-layout > div {
+    margin-bottom: 15px;
+}
+
+.add-bus-container .seat-layout label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.add-bus-container .seat-layout input[type="number"] {
+    width: 50px;
+    margin-right: 5px;
+}
+
+.add-bus-container button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.add-bus-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
