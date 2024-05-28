@@ -44,7 +44,7 @@
 }
 
 .add-bus-container .seat-layout input[type="number"] {
-    width: 50px;
+    width: 2rem;
     margin-right: 5px;
 }
 
@@ -60,4 +60,17 @@
 
 .add-bus-container button[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+.add-bus-flex{
+    display: flex;
+}
+
+.add-bus-flex >div{
+    display: flex;
+    flex-direction: column;
+}
+
+.add-bus-flex >div>input{
+    width:  5rem !important;
 }

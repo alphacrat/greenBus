@@ -64,6 +64,11 @@
     margin-top: 1.5rem!important;
 }
 
+.ticket-summary{
+    /* background-color: red; */
+    margin-right: 80px;
+}
+
 /* Responsive Seat Width */
 @media (max-width: 768px) {
     .busLayoutTicketItem {
@@ -147,7 +152,10 @@
 }
 
 .Berth-Name{
+    /* background-color: red; */
     font-size: larger;
+    font-weight: bolder;
+    width: 200px;
 }
 
 .bus-seat-lower{

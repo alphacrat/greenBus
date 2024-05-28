@@ -16,10 +16,10 @@ const AddBusForm = () => {
         seatLayout: {
             lower: {
                 first: ["", "", "", "", ""],
-                second: ["", "", "", "", ""]
+                second: [["", "", "", "", ""], ["", "", "", ""]]
             },
             upper: {
-                first: [],
+                first: ["",],
                 second: []
             }
         },
@@ -93,17 +93,19 @@ const AddBusForm = () => {
                 </div>
                 <div>
                     <label>Seat Layout:</label>
-                    <div>
-                        <label>Lower Deck First Row:</label>
-                        {formData.seatLayout.lower.first.map((seat, index) => (
-                            <input key={index} type="number" value={seat} onChange={(e) => handleSeatChange('lower', 'first', index, e)} />
-                        ))}
-                    </div>
-                    <div>
-                        <label>Lower Deck Second Row:</label>
-                        {formData.seatLayout.lower.second.map((seat, index) => (
-                            <input key={index} type="number" value={seat} onChange={(e) => handleSeatChange('lower', 'second', index, e)} />
-                        ))}
+                    <div className='add-bus-flex'>
+                        <div>
+                            <label>Lower Deck First Row:</label>
+                            {formData.seatLayout.lower.first.map((seat, index) => (
+                                <input key={index} type="number" value={seat} onChange={(e) => handleSeatChange('lower', 'first', index, e)} />
+                            ))}
+                        </div>
+                        <div>
+                            <label>Lower Deck Second Row:</label>
+                            {formData.seatLayout.lower.second.map((seat, index) => (
+                                <input key={index} type="number" value={seat} onChange={(e) => handleSeatChange('lower', 'second', index, e)} />
+                            ))}
+                        </div>
                     </div>
                     <div>
                         <label>Upper Deck First Row:</label>

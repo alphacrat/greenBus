@@ -1,10 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CustomButton from '../../utils/Button';
-import "./BusBookForm.css"
+import './BusBookForm.css';
 
-const BusBookForm = ({ searchState, setSearchState, selectedSeats, setSelectedSeats }) => {
+const BusBookForm = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { selectedSeats, searchState } = location.state || { selectedSeats: [], searchState: {} };
 
     return (
         <div className='bus-book-form-container'>
@@ -34,6 +36,12 @@ const BusBookForm = ({ searchState, setSearchState, selectedSeats, setSelectedSe
                                 type='number'
                                 placeholder='Age'
                             />
+                            <label>Gender:</label>
+                            <input
+                                className='age-input'
+                                type='text'
+                                placeholder='gender'
+                            />
                         </div>
                     </div>
                 ))}
@@ -41,14 +49,8 @@ const BusBookForm = ({ searchState, setSearchState, selectedSeats, setSelectedSe
                 <CustomButton
                     className='proceed-button'
                     onClick={() => {
-                        setSearchState({
-                            from: location[0],
-                            to: location[2],
-                            date: "",
-                        });
-                        setSelectedSeats([]);
-                        navigate('/');
                         alert('Please Proceed For the Payments');
+                        navigate('/');
                     }}
                 >
                     Proceed

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Buses } from '../../../../utils/index.js';
 import BusList from '../busList/BusList.jsx';
 import CustomButton from '../../utils/Button.jsx';
-// import "./BusSearch.css"
 
 const Container = styled.div`
     background-color: #ADBC9F;
@@ -26,17 +25,49 @@ const Input = styled.input`
 
 const BusSearch = ({ searchState, setSearchState, selectedDate, setSelectedDate }) => {
     const [filteredBus, setFilteredBus] = useState(null);
-    const navigate = useNavigate();
+    const [prices, setPrices] = useState({}); // State to store calculated prices
+    // const navigate = useNavigate();
+
+    const getMatchingSourceIndex = (sourceArray, searchFrom) => {
+        return sourceArray.findIndex(source => source.toLowerCase().includes(searchFrom.toLowerCase()));
+    };
+
+    const getMatchingDestinationIndex = (destinationArray, searchTo) => {
+        return destinationArray.findIndex(destination => destination.toLowerCase().includes(searchTo.toLowerCase()));
+    };
+
+    const calculatePrice = (bus, sourceIndex, destinationIndex) => {
+        const distance = bus.distanceFromSource[bus.destination[destinationIndex]] - bus.distanceFromSource[bus.source[sourceIndex]];
+        return distance * bus.farePerKm;
+    };
 
     const handleSearch = () => {
-        setFilteredBus(
-            Buses.filter(
-                (data) =>
-                    data.source.toLowerCase().includes(searchState.from.toLowerCase()) &&
-                    data.destination.toLowerCase().includes(searchState.to.toLowerCase()) &&
-                    data.availableDates.includes(searchState.date)
-            )
-        );
+        const filteredBuses = Buses.filter(
+            (data) =>
+                Array.isArray(data.source) && Array.isArray(data.destination) &&
+                data.source.some(place => place.toLowerCase().includes(searchState.from.toLowerCase())) &&
+                data.destination.some(place => place.toLowerCase().includes(searchState.to.toLowerCase())) &&
+                data.availableDates.includes(searchState.date)
+        ).map((bus) => {
+            const sourceIndex = getMatchingSourceIndex(bus.source, searchState.from);
+            const destinationIndex = getMatchingDestinationIndex(bus.destination, searchState.to);
+            const price = calculatePrice(bus, sourceIndex, destinationIndex);
+            setPrices(prevState => ({
+                ...prevState,
+                [bus.id]: price,
+            }));
+
+            return {
+                ...bus,
+                matchingSource: bus.source[sourceIndex] || 'N/A',
+                matchingDestination: bus.destination[destinationIndex] || 'N/A',
+                matchingDeparture: bus.departureTime ? bus.departureTime[sourceIndex] : 'N/A',
+                matchingArrival: bus.arrivalTime ? bus.arrivalTime[destinationIndex] : 'N/A',
+                price: price, // Add price to the bus object
+            };
+        });
+
+        setFilteredBus(filteredBuses);
     };
 
     return (
@@ -84,10 +115,11 @@ const BusSearch = ({ searchState, setSearchState, selectedDate, setSelectedDate 
                     />
                 </div>
                 <CustomButton className="mb-3 bus-search-button" onClick={handleSearch}>Search</CustomButton>
-                {filteredBus && filteredBus.length > 0 && <BusList buses={filteredBus} />}
+                {filteredBus && filteredBus.length > 0 && <BusList buses={filteredBus} prices={prices} />}
                 {filteredBus && filteredBus.length < 1 && <p>No buses found</p>}
             </Container>
         </div>
     )
 };
+
 export default BusSearch;
