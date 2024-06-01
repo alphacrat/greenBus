@@ -19,8 +19,10 @@ import { useEffect } from 'react'
 import useUserStore from './Store/store.js'
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../utils/axios.js'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
+  const queryClient = new QueryClient()
   const setUserDetails = useUserStore((state) => state.setUserDetails)
   const resetUserDetails = useUserStore((state) => state.resetUserDetails)
   useEffect(() => {
@@ -40,7 +42,7 @@ function App() {
       resetUserDetails()
     }
   }, [setUserDetails, resetUserDetails])
-  // State for search parameters
+
   const [searchState, setSearchState] = useState({
     from: '',
     to: '',
@@ -51,75 +53,67 @@ function App() {
   const [selectedSeats, setSelectedSeats] = useState([])
 
   // State for selected date
-  const [selectedDate, setSelectedDate] = useState('')
 
   return (
-    <Router>
-      <div>
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <BusSearch
-                searchState={searchState}
-                setSearchState={setSearchState}
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-              />
-            }
-          />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/" element={<BusSearch />} />
+            <Route
+              path="/bus/:id"
+              element={
+                <PrivateRoute>
+                  <BusLayout
+                    selectedSeats={selectedSeats}
+                    setSelectedSeats={setSelectedSeats}
+                  />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/bus/:id"
-            element={
-              <PrivateRoute>
-                <BusLayout
-                  selectedSeats={selectedSeats}
-                  setSelectedSeats={setSelectedSeats}
-                  selectedDate={selectedDate}
-                />
-              </PrivateRoute>
-            }
-          />
+            <Route path="/login" element={<UserLogin />} />
 
-          <Route path="/login" element={<UserLogin />} />
+            <Route path="/signup" element={<SignupPage />} />
 
-          <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/bus/book"
+              element={
+                <PrivateRoute>
+                  <BusBookForm
+                    selectedSeats={selectedSeats}
+                    searchState={searchState}
+                    setSelectedSeats={setSelectedSeats}
+                    setSearchState={setSearchState}
+                  />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/bus/book"
-            element={
-              <PrivateRoute>
-                <BusBookForm
-                  selectedSeats={selectedSeats}
-                  searchState={searchState}
-                  setSelectedSeats={setSelectedSeats}
-                  setSearchState={setSearchState}
-                />
-              </PrivateRoute>
-            }
-          />
+            <Route path="/operator/login" element={<BusOperatorLoginPage />} />
 
-          <Route path="/operator/login" element={<BusOperatorLoginPage />} />
+            <Route
+              path="/operator/signup"
+              element={<BusOperatorSignupPage />}
+            />
 
-          <Route path="/operator/signup" element={<BusOperatorSignupPage />} />
+            <Route
+              path="/operator/dashboard/:name"
+              element={<OperatorDashboard />}
+            />
 
-          <Route
-            path="/operator/dashboard/:name"
-            element={<OperatorDashboard />}
-          />
+            <Route
+              path="/operator/dashboard/:name/operations"
+              element={<BusOperations />}
+            />
 
-          <Route
-            path="/operator/dashboard/:name/operations"
-            element={<BusOperations />}
-          />
-
-          <Route path="/operator/dashboard/:name/add" element={<AddBus />} />
-        </Routes>
-        <Toaster />
-      </div>
-    </Router>
+            <Route path="/operator/dashboard/:name/add" element={<AddBus />} />
+          </Routes>
+          <Toaster />
+        </div>
+      </Router>
+    </QueryClientProvider>
   )
 }
 

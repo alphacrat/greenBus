@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Buses } from '../../../../utils/index.js'
-import BusList from '../busList/BusList.jsx'
 import CustomButton from '../../utils/Button.jsx'
-import useUserStore from '../../../Store/store.js'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
+import axiosInstance from '../../../../utils/axios.js'
+import toast from 'react-hot-toast'
+import { AxiosError } from 'axios'
+import { useMutation } from '@tanstack/react-query'
+import BusList from '../busList/BusList.jsx'
 
 const Container = styled.div`
   background-color: #adbc9f;
+
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
@@ -23,77 +27,38 @@ const Input = styled.input`
   border: 1px solid #ccc;
   font-size: 16px;
 `
+const SearchSchema = z.object({
+  source: z.string().min(1, 'source is required'),
+  destination: z.string().min(1, 'destination is required'),
+  date: z.string().min(1, 'date is required'),
+})
 
-const BusSearch = ({
-  searchState,
-  setSearchState,
-  selectedDate,
-  setSelectedDate,
-}) => {
-  const userDetails = useUserStore((state) => state.userDetails)
-  const [filteredBus, setFilteredBus] = useState(null)
-  const [prices, setPrices] = useState({}) // State to store calculated prices
-  // const navigate = useNavigate();
+const BusSearch = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
+    resolver: zodResolver(SearchSchema),
+  })
 
-  const getMatchingSourceIndex = (sourceArray, searchFrom) => {
-    return sourceArray.findIndex((source) =>
-      source.toLowerCase().includes(searchFrom.toLowerCase())
-    )
-  }
+  const formData = watch()
 
-  const getMatchingDestinationIndex = (destinationArray, searchTo) => {
-    return destinationArray.findIndex((destination) =>
-      destination.toLowerCase().includes(searchTo.toLowerCase())
-    )
-  }
-
-  const calculatePrice = (bus, sourceIndex, destinationIndex) => {
-    const distance =
-      bus.distanceFromSource[bus.destination[destinationIndex]] -
-      bus.distanceFromSource[bus.source[sourceIndex]]
-    return distance * bus.farePerKm
-  }
-
-  const handleSearch = () => {
-    const filteredBuses = Buses.filter(
-      (data) =>
-        Array.isArray(data.source) &&
-        Array.isArray(data.destination) &&
-        data.source.some((place) =>
-          place.toLowerCase().includes(searchState.from.toLowerCase())
-        ) &&
-        data.destination.some((place) =>
-          place.toLowerCase().includes(searchState.to.toLowerCase())
-        ) &&
-        data.availableDates.includes(searchState.date)
-    ).map((bus) => {
-      const sourceIndex = getMatchingSourceIndex(bus.source, searchState.from)
-      const destinationIndex = getMatchingDestinationIndex(
-        bus.destination,
-        searchState.to
-      )
-      const price = calculatePrice(bus, sourceIndex, destinationIndex)
-      setPrices((prevState) => ({
-        ...prevState,
-        [bus.id]: price,
-      }))
-
-      return {
-        ...bus,
-        matchingSource: bus.source[sourceIndex] || 'N/A',
-        matchingDestination: bus.destination[destinationIndex] || 'N/A',
-        matchingDeparture: bus.departureTime
-          ? bus.departureTime[sourceIndex]
-          : 'N/A',
-        matchingArrival: bus.arrivalTime
-          ? bus.arrivalTime[destinationIndex]
-          : 'N/A',
-        price: price, // Add price to the bus object
+  const { mutate, isPending, data, error } = useMutation({
+    mutationKey: ['bus'],
+    mutationFn: async (data) => {
+      const res = await axiosInstance.post('/bus/search', data)
+      return res.data
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        console.log(error.response.data)
+      } else {
+        toast.error('Oops something wrong')
       }
-    })
-
-    setFilteredBus(filteredBuses)
-  }
+    },
+  })
 
   return (
     <div className="search-bus-container">
@@ -101,53 +66,44 @@ const BusSearch = ({
         <h2 className="mb-3" style={{ color: '#12372A' }}>
           Search Buses
         </h2>
-        <div className="d-flex flex-column align-items-center searchFormStyle">
-          <Input
-            className="mb-3 "
-            type="text"
-            placeholder="Enter Source"
-            value={searchState.from}
-            onChange={(e) => {
-              setSearchState((prevState) => ({
-                ...prevState,
-                from: e.target.value,
-              }))
-            }}
-          />
+        <form onSubmit={handleSubmit(mutate)}>
+          <div className="d-flex flex-column align-items-center searchFormStyle">
+            <Input
+              className="mb-3 "
+              type="text"
+              placeholder="Enter Source"
+              {...register('source')}
+            />
 
-          <Input
-            className="mb-3"
-            type="text"
-            placeholder="Enter Destination"
-            value={searchState.to}
-            onChange={(e) => {
-              setSearchState((prevState) => ({
-                ...prevState,
-                to: e.target.value,
-              }))
-            }}
-          />
+            {errors.source && (
+              <p className="error-message">{errors.source.message}</p>
+            )}
+            <Input
+              className="mb-3"
+              type="text"
+              placeholder="Enter Destination"
+              {...register('destination')}
+            />
 
-          <Input
-            className="mb-3"
-            type="date"
-            value={searchState.date}
-            onChange={(e) => {
-              setSearchState((prevState) => ({
-                ...prevState,
-                date: e.target.value,
-              }))
-              setSelectedDate(e.target.value) // Update selectedDate state
-            }}
-          />
-        </div>
-        <CustomButton className="mb-3 bus-search-button" onClick={handleSearch}>
-          Search
-        </CustomButton>
-        {filteredBus && filteredBus.length > 0 && (
-          <BusList buses={filteredBus} prices={prices} />
+            {errors.destination && (
+              <p className="error-message">{errors.destination.message}</p>
+            )}
+            <Input className="mb-3" type="date" {...register('date')} />
+            {errors.date && (
+              <p className="error-message">{errors.date.message}</p>
+            )}
+          </div>
+          <CustomButton className="mb-3 bus-search-button" type="submit">
+            Search
+          </CustomButton>
+        </form>
+        {isPending && <h3>Loading...</h3>}
+        {error && error instanceof AxiosError && (
+          <h3>{error.response.data.message}</h3>
         )}
-        {filteredBus && filteredBus.length < 1 && <p>No buses found</p>}
+        {data && data.data.buses.length > 0 && (
+          <BusList buses={data.data.buses} formData={formData} />
+        )}
       </Container>
     </div>
   )

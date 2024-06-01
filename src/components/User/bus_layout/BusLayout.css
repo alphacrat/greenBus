@@ -214,3 +214,36 @@
         font-size: 14px;
     }
 }
+
+.bus_layout_seat_container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+}
+.bus_layout_seats {
+    display: grid;
+    place-items: center;
+    width: 6rem;
+    height: 3rem;
+    border: 2px solid black;
+    border-radius: 0.5rem;
+}
+.bus_layout_seats:nth-child(3n-1){
+    margin-left: 3rem;
+}
+.bus_layout_booked{
+    background-color: red;
+}
+.bus_layout_selected{
+    background-color: lightblue;
+}
+.bus_layout_availabe_seats {
+    color:black;
+    display: flex;
+    gap: 1rem;
+}
+.bus_layout_flex{
+    justify-content: center;
+    display: flex;
+    gap: 2rem;
+}
