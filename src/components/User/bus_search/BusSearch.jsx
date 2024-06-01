@@ -99,7 +99,7 @@ const BusSearch = () => {
         </form>
         {isPending && <h3>Loading...</h3>}
         {error && error instanceof AxiosError && (
-          <h3>{error.response.data.message}</h3>
+          <h3>{error?.response?.data?.message}</h3>
         )}
         {data && data.data.buses.length > 0 && (
           <BusList buses={data.data.buses} formData={formData} />
