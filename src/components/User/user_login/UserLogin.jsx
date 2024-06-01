@@ -23,11 +23,11 @@ const UserLoginPage = () => {
   })
 
   const handleSignupClick = () => {
-    window.location.href = '/signup' // Call the redirect function with the desired route
+    navigate('/signup')
   }
 
   const handleResetPasswordClick = () => {
-    window.location.href = '/resetpassword' // Redirect to the reset password page
+    navigate('/resetpassword')
   }
 
   const handleLogin = async (data) => {
@@ -41,7 +41,7 @@ const UserLoginPage = () => {
       setUserDetails({ name, address, email, age, contact_number })
       localStorage.setItem('token', res.data.token)
     } catch (error) {
-      if (error instanceof axios.AxiosError) toast.error(error.message)
+      if (error instanceof axios.AxiosError) toast.error(error.response.data)
     }
   }
 
