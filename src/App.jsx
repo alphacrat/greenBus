@@ -13,8 +13,33 @@ import BusOperatorSignupPage from './components/bus_operators/login/BusOperatorS
 import OperatorDashboard from './components/bus_operators/Dashboard/OperatorDashboard.jsx'
 import AddBus from './components/bus_operators/add_bus/AddBus.jsx'
 import BusOperations from './components/bus_operators/Dashboard/BusOperations.jsx'
+import { Toaster } from 'react-hot-toast'
+import PrivateRoute from './components/User/PrivateRoute.jsx'
+import { useEffect } from 'react'
+import useUserStore from './Store/store.js'
+import { toast } from 'react-hot-toast'
+import axiosInstance from '../utils/axios.js'
 
 function App() {
+  const setUserDetails = useUserStore((state) => state.setUserDetails)
+  const resetUserDetails = useUserStore((state) => state.resetUserDetails)
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const getToken = async (token) => {
+      try {
+        const res = await axiosInstance.post('/verify', { token })
+        setUserDetails(res.data.data)
+      } catch (error) {
+        toast.error(error.message)
+        resetUserDetails()
+      }
+    }
+    if (token) {
+      getToken(token)
+    } else {
+      resetUserDetails()
+    }
+  }, [setUserDetails, resetUserDetails])
   // State for search parameters
   const [searchState, setSearchState] = useState({
     from: '',
@@ -48,11 +73,13 @@ function App() {
           <Route
             path="/bus/:id"
             element={
-              <BusLayout
-                selectedSeats={selectedSeats}
-                setSelectedSeats={setSelectedSeats}
-                selectedDate={selectedDate}
-              />
+              <PrivateRoute>
+                <BusLayout
+                  selectedSeats={selectedSeats}
+                  setSelectedSeats={setSelectedSeats}
+                  selectedDate={selectedDate}
+                />
+              </PrivateRoute>
             }
           />
 
@@ -63,12 +90,14 @@ function App() {
           <Route
             path="/bus/book"
             element={
-              <BusBookForm
-                selectedSeats={selectedSeats}
-                searchState={searchState}
-                setSelectedSeats={setSelectedSeats}
-                setSearchState={setSearchState}
-              />
+              <PrivateRoute>
+                <BusBookForm
+                  selectedSeats={selectedSeats}
+                  searchState={searchState}
+                  setSelectedSeats={setSelectedSeats}
+                  setSearchState={setSearchState}
+                />
+              </PrivateRoute>
             }
           />
 
@@ -88,6 +117,7 @@ function App() {
 
           <Route path="/operator/dashboard/:name/add" element={<AddBus />} />
         </Routes>
+        <Toaster />
       </div>
     </Router>
   )
