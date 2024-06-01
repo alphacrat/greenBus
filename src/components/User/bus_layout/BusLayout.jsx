@@ -6,7 +6,9 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { isSameDay } from 'date-fns'
 import CustomButton from '../../utils/Button'
+import { useNavigate } from 'react-router-dom'
 const BusLayout = () => {
+  const navigate = useNavigate()
   const [selectedSeats, setSelectedSeats] = useState([])
   const { id } = useParams()
   const location = useLocation()
@@ -15,7 +17,6 @@ const BusLayout = () => {
   const source = searchParams.get('source')
   const destination = searchParams.get('destination')
   const busFare = searchParams.get('busFare')
-  console.log(date)
   const { isLoading, data } = useQuery({
     queryKey: ['bus'],
     queryFn: async () => {
@@ -101,7 +102,20 @@ const BusLayout = () => {
           <p>Total Cose: {busFare * selectedSeats.length}</p>
         </div>
       </div>
-      <CustomButton>Proceed</CustomButton>
+      <CustomButton
+        onClick={() => {
+          const params = new URLSearchParams({
+            selectedSeats: selectedSeats.join(','),
+            busId: data._id,
+            date: date,
+            from: source,
+            to: destination,
+          })
+          navigate(`/bus/book?${params.toString()}`)
+        }}
+      >
+        Proceed
+      </CustomButton>
     </div>
   )
 }

@@ -43,17 +43,6 @@ function App() {
     }
   }, [setUserDetails, resetUserDetails])
 
-  const [searchState, setSearchState] = useState({
-    from: '',
-    to: '',
-    date: '',
-  })
-
-  // State for selected seats
-  const [selectedSeats, setSelectedSeats] = useState([])
-
-  // State for selected date
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -65,10 +54,7 @@ function App() {
               path="/bus/:id"
               element={
                 <PrivateRoute>
-                  <BusLayout
-                    selectedSeats={selectedSeats}
-                    setSelectedSeats={setSelectedSeats}
-                  />
+                  <BusLayout />
                 </PrivateRoute>
               }
             />
@@ -81,12 +67,7 @@ function App() {
               path="/bus/book"
               element={
                 <PrivateRoute>
-                  <BusBookForm
-                    selectedSeats={selectedSeats}
-                    searchState={searchState}
-                    setSelectedSeats={setSelectedSeats}
-                    setSearchState={setSearchState}
-                  />
+                  <BusBookForm />
                 </PrivateRoute>
               }
             />
