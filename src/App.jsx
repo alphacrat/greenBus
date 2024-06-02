@@ -81,15 +81,30 @@ function App() {
 
             <Route
               path="/operator/dashboard/:name"
-              element={<OperatorDashboard />}
+              element={
+                <PrivateRoute isOperator>
+                  <OperatorDashboard />
+                </PrivateRoute>
+              }
             />
 
             <Route
               path="/operator/dashboard/:name/operations"
-              element={<BusOperations />}
+              element={
+                <PrivateRoute isOperator>
+                  <BusOperations />
+                </PrivateRoute>
+              }
             />
 
-            <Route path="/operator/dashboard/:name/add" element={<AddBus />} />
+            <Route
+              path="/operator/dashboard/:name/add"
+              element={
+                <PrivateRoute isOperator>
+                  <AddBus />
+                </PrivateRoute>
+              }
+            />
           </Routes>
           <Toaster />
         </div>

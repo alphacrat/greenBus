@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBus, faUser, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { useLocation, Link, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import image from '../../../assets/logo.png'
 import '../../../styles/App.css'
+import useUserStore from '../../../Store/store'
 
 const HeaderContainer = styled.header`
   background-color: #436850;
@@ -56,7 +57,9 @@ const Button = styled.button`
 
 const Header = () => {
   const location = useLocation()
-  const { name } = useParams()
+  const userDetails = useUserStore((state) => state.userDetails)
+  console.log(userDetails)
+  const resetUserDetails = useUserStore((state) => state.resetUserDetails)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const isRootRoute = location.pathname === '/'
   const isOperatorDashboard = location.pathname.startsWith(
@@ -112,6 +115,16 @@ const Header = () => {
               <FontAwesomeIcon icon={faPlus} size="xl" />
             </Button>
           </RightButtonContainer>
+        )}
+        {(userDetails.data.name || userDetails.data.company_name) && (
+          <button
+            onClick={() => {
+              localStorage.removeItem('token')
+              resetUserDetails()
+            }}
+          >
+            Logout
+          </button>
         )}
       </HeaderContainer>
     </div>
