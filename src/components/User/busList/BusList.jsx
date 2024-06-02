@@ -70,11 +70,11 @@ const BusList = ({ buses, formData }) => {
                 <strong>Price: ₹</strong> {busFare}
               </p>
               <p className="busType">
-                <strong>Type: </strong> {bus.busType}
+                <strong>Type: </strong> {bus.bus_type}
               </p>
             </div>
             <div className="busActions">
-              <h5 className="availableSeats">Available Seats:</h5>
+              <h5 className="availableSeats">Total Seats:{bus.total_seats}</h5>
               <CustomButton
                 className="bookButton"
                 onClick={() => {
