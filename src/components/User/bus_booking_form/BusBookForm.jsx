@@ -31,6 +31,8 @@ const BusBookForm = () => {
           ...data,
           selected_seats: selectedSeats,
           date: date,
+          source: from,
+          destination: to,
         },
         {
           headers: {
@@ -50,6 +52,31 @@ const BusBookForm = () => {
     },
   })
 
+  const { mutate: mutatePassenger } = useMutation({
+    mutationKey: ['passenger'],
+    mutationFn: async (data) => {
+      return await axiosInstance.post(
+        `user/passenger/`,
+        {
+          ...data,
+          age: parseInt(data.age, 10),
+          sex: data.gender,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    },
+    onSuccess: () => {
+      console.log('successfully created passengers')
+    },
+    onError: (error) => {
+      console.log(error)
+      if (error instanceof AxiosError) toast.error('OOPs something is wrong')
+    },
+  })
   const schema = z.object({
     seats: z.array(
       z.object({
@@ -70,6 +97,9 @@ const BusBookForm = () => {
 
   const onSubmit = (data) => {
     mutate(data)
+    data.seats.forEach((seat) => {
+      mutatePassenger(seat)
+    })
   }
 
   return (
