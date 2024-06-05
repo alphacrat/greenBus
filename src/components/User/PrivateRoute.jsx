@@ -7,7 +7,7 @@ const PrivateRoute = ({ children, isOperator = false }) => {
   const userDetails = useUserStore((state) => state.userDetails)
   useEffect(() => {
     if (isOperator) {
-      if (!userDetails.data.company_name) {
+      if (!userDetails.data.company_name && !userDetails.loading) {
         navigate('/operator/login')
       }
       return

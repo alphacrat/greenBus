@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import './OperatorDashboard.css' // Import CSS file for styling
 import { useParams } from 'react-router-dom'
 import axiosInstance from '../../../../utils/axios'
+import { useNavigate } from 'react-router-dom'
 
 const OperatorDashboard = () => {
+  const navigate = useNavigate()
   const { name } = useParams()
   const { data, isLoading, error } = useQuery({
     queryKey: ['getAllbus'],
@@ -32,8 +34,8 @@ const OperatorDashboard = () => {
       {/* Current Running Buses */}
       <div className="current-running-buses">
         <h2>Current Running Buses</h2>
-        {data?.data.map((bus) => (
-          <div className="bus-details" key={bus.busNo}>
+        {data?.data.map((bus, index) => (
+          <div className="bus-details" key={index}>
             <p>
               <strong>Bus Number:</strong>{' '}
               <span className="highlight">{bus.busNo}</span>
@@ -62,7 +64,13 @@ const OperatorDashboard = () => {
       </div>
 
       <div className="operations">
-        <button onClick={() => {}}>Operations</button>
+        <button
+          onClick={() => {
+            navigate(`/operator/dashboard/${name}/operations`)
+          }}
+        >
+          Operations
+        </button>
       </div>
     </div>
   )

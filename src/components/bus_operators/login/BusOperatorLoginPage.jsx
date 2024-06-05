@@ -26,6 +26,7 @@ const BusOperatorLoginPage = () => {
     mutationKey: ['operator login'],
     mutationFn: getLogin,
     onSuccess: (data) => {
+      localStorage.setItem('token', data.token)
       setUserDetails({ ...data.data })
       navigate(`/operator/dashboard/${data.data._id}`)
     },
