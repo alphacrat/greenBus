@@ -27,7 +27,7 @@ const BusOperatorLoginPage = () => {
     mutationFn: getLogin,
     onSuccess: (data) => {
       setUserDetails({ ...data.data })
-      navigate(`/operator/dashboard/${data.data.company_name}`)
+      navigate(`/operator/dashboard/${data.data._id}`)
     },
     onError: (error) => {
       console.log(error)

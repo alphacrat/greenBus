@@ -92,9 +92,7 @@ const Header = () => {
       <HeaderContainer>
         <LogoContainer>
           <LogoImage src={image} alt="Bus Logo" />
-          <HeaderTitle>
-            {isOperatorDashboard ? companyName : 'greenBus'}
-          </HeaderTitle>
+          <HeaderTitle>greenBus</HeaderTitle>
         </LogoContainer>
         <ButtonContainer>
           {isRootRoute && !isLoggedIn && (
