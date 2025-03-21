@@ -22,7 +22,7 @@ import axiosInstance from '../utils/axios.js'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient{}
   const setUserDetails = useUserStore((state) => state.setUserDetails)
   const resetUserDetails = useUserStore((state) => state.resetUserDetails)
   useEffect(() => {
